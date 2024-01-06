@@ -29,7 +29,10 @@ class Crawler {
     console.log("爬蟲已完成");
   }
   // 構造器
-  constructor(private url: string, private analyzer: Analyzer) {
+  constructor(
+    private url: string,
+    private analyzer: Analyzer
+  ) {
     this.initSpiderProcess();
   }
 }

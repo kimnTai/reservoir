@@ -1,0 +1,14 @@
+{
+  "name": "reservoir",
+  "version": "1.0.0",
+  "description": "reservoir",
+  "scripts": {
+    "format": "prettier . --write"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.1.1"
+  }
+}
