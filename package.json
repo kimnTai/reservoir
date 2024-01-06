@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "reservoir",
   "scripts": {
+    "postinstall": "cd ./server && npm i",
     "format": "prettier . --write"
   },
   "keywords": [],

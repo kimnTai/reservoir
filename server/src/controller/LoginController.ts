@@ -1,30 +1,21 @@
 import { Request, Response } from "express";
 import { controller, get, post } from "../decorator";
-import { getResponseData } from "../utils/util";
-interface BodyRequest extends Request {
-  body: { [key: string]: string | undefined };
-}
+import { getResponseData, isLogin } from "../utils/util";
 
 @controller("/api")
 export class LoginController {
-  static isLogin(req: BodyRequest): boolean {
-    return !!(req.session ? req.session.login : false);
-  }
-
   @get("/isLogin")
-  test(req: BodyRequest, res: Response): void {
-    const isLogin = LoginController.isLogin(req);
-    const result = getResponseData<responseResult.isLogin>(isLogin);
+  test(req: Request, res: Response) {
+    const result = getResponseData<responseResult.isLogin>(isLogin(req));
     res.json(result);
   }
 
   @post("/login")
-  login(req: BodyRequest, res: Response): void {
-    const { password } = req.body;
-    const isLogin = LoginController.isLogin(req);
-    if (isLogin) {
+  login(req: Request, res: Response) {
+    if (isLogin(req)) {
       res.json(getResponseData<responseResult.login>(true));
     } else {
+      const { password } = req.body;
       if (password === "123" && req.session) {
         req.session.login = true;
         res.json(getResponseData<responseResult.login>(true));
@@ -35,7 +26,7 @@ export class LoginController {
   }
 
   @get("/logout")
-  logout(req: BodyRequest, res: Response): void {
+  logout(req: Request, res: Response) {
     if (req.session) {
       req.session.login = undefined;
     }

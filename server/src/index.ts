@@ -15,7 +15,15 @@ app.use(
 );
 app.use(router);
 
-// 聽 http://localhost:7001
-app.listen(7001, () => {
-  console.log("伺服器啟動中...");
+app.use((_req, res) => {
+  res.status(404).send({
+    status: false,
+    message: "無此路由資訊",
+  });
+});
+
+const PORT = 7001;
+
+app.listen(PORT, () => {
+  console.log(`listening on http://localhost:${PORT}`);
 });

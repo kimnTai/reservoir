@@ -1,3 +1,5 @@
+import { Request } from "express";
+
 interface Result<T> {
   success: boolean;
   errMsg?: string;
@@ -9,4 +11,8 @@ export const getResponseData = <T>(data: T, errMsg?: string): Result<T> => {
     return { success: false, errMsg, data };
   }
   return { success: true, data };
+};
+
+export const isLogin = (req: Request) => {
+  return !!(req.session ? req.session.login : false);
 };
