@@ -1,6 +1,5 @@
 import fs from "fs";
 import cheerio from "cheerio";
-import { Analyzer } from "./crawler";
 
 interface Course {
   name: string;
@@ -16,18 +15,20 @@ interface Content {
 
 export default class PowerAnalyzer implements Analyzer {
   private static instance: PowerAnalyzer;
+
   static getInstance() {
     if (!PowerAnalyzer.instance) {
       PowerAnalyzer.instance = new PowerAnalyzer();
     }
     return PowerAnalyzer.instance;
   }
+
   // 傳入 html 並回傳 Data 物件
   private getInfo(html: string) {
     const $ = cheerio.load(html);
     const infos: Course[] = [];
     const item = $(".reservoir");
-    item.map((index, element) => {
+    item.map((_index, element) => {
       const name = $(element).find(".name").eq(0).text();
       const volume = $(element).find(".volumn").eq(0).text();
       // 過濾字串，只保留數字
@@ -36,6 +37,7 @@ export default class PowerAnalyzer implements Analyzer {
     });
     return { time: new Date().getTime(), data: infos };
   }
+
   // 取得檔案內容方法
   private generateJsonContent(courseInfo: CourseResult, filePath: string) {
     let fileContent: Content = {};
@@ -48,12 +50,11 @@ export default class PowerAnalyzer implements Analyzer {
     return fileContent;
   }
 
-  public ToAnalyzer(html: string, filePath: string) {
+  public toAnalyzer(html: string, filePath: string) {
     // 將 html 傳入 getInfo()
     const courseInfo = this.getInfo(html);
     // 將 data物件 傳入 generateJsonContent()
     const fileContent = this.generateJsonContent(courseInfo, filePath);
     return JSON.stringify(fileContent);
   }
-  private constructor() {}
 }

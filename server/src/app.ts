@@ -1,10 +1,11 @@
 import express from "express";
 import cookieSession from "cookie-session";
-import "./controller/LoginController";
-import "./controller/CrawlerController";
+import "./controller/login";
+import "./controller/crawler";
 import router from "./router";
 
 const app = express();
+
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cookieSession({
@@ -13,8 +14,8 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 小時
   })
 );
-app.use(router);
 
+app.use(router);
 app.use((_req, res) => {
   res.status(404).send({
     status: false,

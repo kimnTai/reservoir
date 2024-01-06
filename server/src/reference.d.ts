@@ -14,3 +14,7 @@ declare namespace responseResult {
   type getData = boolean;
   type showData = dataStructure | boolean;
 }
+
+interface Analyzer {
+  toAnalyzer: (html: string, filePath: string) => string;
+}

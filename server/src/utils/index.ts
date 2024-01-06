@@ -1,4 +1,4 @@
-import { Request } from "express";
+import type { Request } from "express";
 
 interface Result<T> {
   success: boolean;

@@ -1,6 +1,5 @@
 import fs from "fs";
 import cheerio from "cheerio";
-import { Analyzer } from "./crawler";
 
 interface Course {
   title: string;
@@ -16,18 +15,20 @@ interface Content {
 
 export default class DellAnalyzer implements Analyzer {
   private static instance: DellAnalyzer;
+
   static getInstance() {
     if (!DellAnalyzer.instance) {
       DellAnalyzer.instance = new DellAnalyzer();
     }
     return DellAnalyzer.instance;
   }
+
   // 傳入 html 並回傳 Data 物件
   private getCourseInfo(html: string) {
     const $ = cheerio.load(html);
     const courseItem = $(".course-item");
     const courseInfos: Course[] = [];
-    courseItem.map((index, element) => {
+    courseItem.map((_index, element) => {
       const descs = $(element).find(".course-desc");
       const title = descs.eq(0).text();
       const img = $(element).find(".course-img").attr("src");
@@ -36,6 +37,7 @@ export default class DellAnalyzer implements Analyzer {
     });
     return { time: new Date().getTime(), data: courseInfos };
   }
+
   // 取得檔案內容方法
   private generateJsonContent(courseInfo: CourseResult, filePath: string) {
     let fileContent: Content = {};
@@ -49,10 +51,11 @@ export default class DellAnalyzer implements Analyzer {
     return fileContent;
   }
 
-  public ToAnalyzer(html: string, filePath: string) {
+  public toAnalyzer(html: string, filePath: string) {
     const courseInfo = this.getCourseInfo(html); // 將 html 傳入 getCourseInfo()
     const fileContent = this.generateJsonContent(courseInfo, filePath); // 將 data物件 傳入 generateJsonContent()
     return JSON.stringify(fileContent);
   }
+
   private constructor() {}
 }

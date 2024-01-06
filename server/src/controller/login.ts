@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
+import type { Request, Response, RequestHandler } from "express";
 import { controller, get, post } from "../decorator";
-import { getResponseData, isLogin } from "../utils/util";
+import { getResponseData, isLogin } from "../utils";
 
 @controller("/api")
-export class LoginController {
+export default class LoginController {
   @get("/isLogin")
-  test(req: Request, res: Response) {
+  isLogin(req: Request, res: Response) {
     const result = getResponseData<responseResult.isLogin>(isLogin(req));
     res.json(result);
   }

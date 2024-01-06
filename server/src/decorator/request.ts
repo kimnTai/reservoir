@@ -1,5 +1,5 @@
-import { CrawlerController } from "../controller/CrawlerController";
-import { LoginController } from "../controller/LoginController";
+import type CrawlerController from "../controller/crawler";
+import type LoginController from "../controller/login";
 
 export enum Methods {
   get = "get",

@@ -1,15 +1,15 @@
 import fs from "fs";
 import path from "path";
 import "reflect-metadata";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { controller, use, get } from "../decorator";
-import { getResponseData } from "../utils/util";
+import { getResponseData } from "../utils";
 import Crawler from "../utils/crawler";
 import Analyzer from "../utils/waterAnalyzer";
 import { checkLogin } from "../middleware";
 
 @controller("/api")
-export class CrawlerController {
+export default class CrawlerController {
   @get("/getData")
   @use(checkLogin)
   getData(_req: Request, res: Response) {

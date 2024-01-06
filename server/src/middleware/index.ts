@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { getResponseData, isLogin } from "../utils/util";
+import { getResponseData, isLogin } from "../utils";
 
 export const checkLogin: RequestHandler = (req, res, next) => {
   next();

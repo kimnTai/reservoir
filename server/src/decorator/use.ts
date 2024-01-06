@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { RequestHandler } from "express";
-import { CrawlerController } from "../controller/CrawlerController";
-import { LoginController } from "../controller/LoginController";
+import type { RequestHandler } from "express";
+import type CrawlerController from "../controller/crawler";
+import type LoginController from "../controller/login";
 
 // 中間件
 export function use(middleware: RequestHandler) {
