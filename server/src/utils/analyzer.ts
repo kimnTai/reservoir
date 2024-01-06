@@ -14,7 +14,7 @@ interface Content {
 }
 
 export default class DellAnalyzer implements Analyzer {
-  private static instance: DellAnalyzer;
+  protected static instance: DellAnalyzer;
 
   static getInstance() {
     if (!DellAnalyzer.instance) {
@@ -23,14 +23,20 @@ export default class DellAnalyzer implements Analyzer {
     return DellAnalyzer.instance;
   }
 
+  public toAnalyzer(html: string, filePath: string) {
+    const courseInfo = this.getCourseInfo(html); // 將 html 傳入 getCourseInfo()
+    const fileContent = this.generateJsonContent(courseInfo, filePath); // 將 data物件 傳入 generateJsonContent()
+    return JSON.stringify(fileContent);
+  }
+
   // 傳入 html 並回傳 Data 物件
-  private getCourseInfo(html: string) {
+  protected getCourseInfo(html: string) {
     const $ = cheerio.load(html);
     const courseItem = $(".course-item");
     const courseInfos: Course[] = [];
     courseItem.map((_index, element) => {
-      const descs = $(element).find(".course-desc");
-      const title = descs.eq(0).text();
+      const desc = $(element).find(".course-desc");
+      const title = desc.eq(0).text();
       const img = $(element).find(".course-img").attr("src");
       const courseImg = `http://www.dell-lee.com${img}`;
       courseInfos.push({ title, courseImg });
@@ -50,12 +56,4 @@ export default class DellAnalyzer implements Analyzer {
     fileContent[courseInfo.time] = courseInfo.data;
     return fileContent;
   }
-
-  public toAnalyzer(html: string, filePath: string) {
-    const courseInfo = this.getCourseInfo(html); // 將 html 傳入 getCourseInfo()
-    const fileContent = this.generateJsonContent(courseInfo, filePath); // 將 data物件 傳入 generateJsonContent()
-    return JSON.stringify(fileContent);
-  }
-
-  private constructor() {}
 }
