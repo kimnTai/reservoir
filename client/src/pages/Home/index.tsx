@@ -7,18 +7,13 @@ import moment from "moment";
 import "./style.css";
 import { EChartsOption } from "echarts";
 
-interface State {
-  loaded: boolean;
-  isLogin: boolean;
-  data: dataStructure;
-}
-
-class Home extends Component {
-  state: State = {
+export default class Home extends Component {
+  state = {
     loaded: false,
     isLogin: true,
-    data: {},
+    data: {} as dataStructure,
   };
+
   // 生命週期函數
   componentDidMount() {
     request.get("/api/isLogin").then((res: any) => {
@@ -36,6 +31,7 @@ class Home extends Component {
       }
     });
   }
+
   // 爬蟲
   handleCrawlerClick = () => {
     request.get("/api/getData").then((res: any) => {
@@ -47,13 +43,13 @@ class Home extends Component {
       }
     });
   };
+
   getOption: () => EChartsOption = () => {
-    const { data } = this.state;
     const waterName: string[] = [];
     const times: string[] = [];
     const tempData: { [key: string]: number[] } = {};
-    for (let i in data) {
-      const item = data[i];
+    for (let i in this.state.data) {
+      const item = this.state.data[i];
       times.push(moment(Number(i)).format("MM-DD HH:mm"));
       item.forEach((innerItem) => {
         const { name, volumeNumber } = innerItem;
@@ -113,11 +109,10 @@ class Home extends Component {
   };
 
   render() {
-    const { isLogin, loaded } = this.state;
-    if (!isLogin) {
+    if (!this.state.isLogin) {
       return <Redirect to="/login" />;
     }
-    if (!loaded) {
+    if (!this.state.loaded) {
       return null;
     }
     return (
@@ -140,5 +135,3 @@ class Home extends Component {
     );
   }
 }
-
-export default Home;

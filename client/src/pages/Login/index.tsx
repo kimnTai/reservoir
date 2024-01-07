@@ -6,29 +6,29 @@ import qs from "qs";
 import request from "../../request";
 import "./style.css";
 
-class LoginForm extends Component {
-  state = { isLogin: false };
-  onFinish = (values: any) => {
-    request
-      .post("/api/login", qs.stringify(values), {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      })
-      .then((res: any) => {
-        const dada: responseResult.login = res.data;
-        if (dada) {
-          this.setState({ isLogin: true });
-          message.success("登入成功");
-        } else {
-          message.error("登入失敗");
-        }
-      });
+export default class LoginForm extends Component {
+  state = {
+    isLogin: false,
+  };
+
+  onFinish = async (values: any) => {
+    const res = await request.post("/api/login", qs.stringify(values), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    const dada: responseResult.login = res.data;
+    if (dada) {
+      this.setState({ isLogin: true });
+      message.success("登入成功");
+    } else {
+      message.error("登入失敗");
+    }
   };
 
   render() {
-    const { isLogin } = this.state;
-    return isLogin ? (
+    return this.state.isLogin ? (
       <Redirect to="/" />
     ) : (
       <div className="login-page">
@@ -63,5 +63,3 @@ class LoginForm extends Component {
     );
   }
 }
-
-export default LoginForm;
