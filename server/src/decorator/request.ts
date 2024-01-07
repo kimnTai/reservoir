@@ -1,6 +1,3 @@
-import type CrawlerController from "../controller/crawler";
-import type LoginController from "../controller/login";
-
 export enum Methods {
   get = "get",
   post = "post",
@@ -10,7 +7,7 @@ export enum Methods {
 function getRequestDecorator(type: Methods) {
   return function (path: string) {
     // target 指的是 prototype
-    return function (target: CrawlerController | LoginController, key: string) {
+    return function (target: Object, key: string) {
       Reflect.defineMetadata("path", path, target, key);
       Reflect.defineMetadata("method", type, target, key);
     };

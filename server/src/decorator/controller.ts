@@ -1,10 +1,10 @@
 import router from "../router";
-import { RequestHandler } from "express";
-import { Methods } from "./request";
+import type { RequestHandler } from "express";
+import type { Methods } from "./request";
 
 export function controller(root: string) {
   return function (target: new (...args: any[]) => any) {
-    for (let key in target.prototype) {
+    for (const key in target.prototype) {
       const path: string = Reflect.getMetadata("path", target.prototype, key);
       const method: Methods = Reflect.getMetadata(
         "method",

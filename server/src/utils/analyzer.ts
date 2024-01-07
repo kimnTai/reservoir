@@ -24,23 +24,27 @@ export default class DellAnalyzer implements Analyzer {
   }
 
   public toAnalyzer(html: string, filePath: string) {
-    const courseInfo = this.getCourseInfo(html); // 將 html 傳入 getCourseInfo()
-    const fileContent = this.generateJsonContent(courseInfo, filePath); // 將 data物件 傳入 generateJsonContent()
+    // 將 html 傳入 getCourseInfo()
+    const courseInfo = this.getCourseInfo(html);
+    // 將 data物件 傳入 generateJsonContent()
+    const fileContent = this.generateJsonContent(courseInfo, filePath);
     return JSON.stringify(fileContent);
   }
 
   // 傳入 html 並回傳 Data 物件
   protected getCourseInfo(html: string) {
     const $ = cheerio.load(html);
-    const courseItem = $(".course-item");
+
     const courseInfos: Course[] = [];
-    courseItem.map((_index, element) => {
+    $(".course-item").map((_index, element) => {
       const desc = $(element).find(".course-desc");
       const title = desc.eq(0).text();
       const img = $(element).find(".course-img").attr("src");
       const courseImg = `http://www.dell-lee.com${img}`;
+
       courseInfos.push({ title, courseImg });
     });
+
     return { time: new Date().getTime(), data: courseInfos };
   }
 

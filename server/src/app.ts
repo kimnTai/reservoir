@@ -1,7 +1,9 @@
+import "reflect-metadata";
 import express from "express";
 import cookieSession from "cookie-session";
 import "./controller/login";
 import "./controller/crawler";
+import "./controller/health";
 import router from "./router";
 
 const app = express();
@@ -27,4 +29,14 @@ const PORT = 7001;
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}`);
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("未捕獲的異常！");
+  console.error(error);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("未捕捉到的 rejection :", promise, "原因：", reason);
 });

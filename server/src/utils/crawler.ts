@@ -3,8 +3,6 @@ import path from "path";
 
 // 負責單獨爬取內容
 export default class Crawler {
-  private filePath = path.resolve(__dirname, "../../data/course.json");
-
   constructor(
     private url: string,
     private analyzer: Analyzer
@@ -13,12 +11,9 @@ export default class Crawler {
   }
 
   private async initSpiderProcess() {
-    const html = await this.getRawHtml();
-    // 將分析交給 analyzer (class)，並且 analyzer 必須回傳字串
-    const fileContent = this.analyzer.toAnalyzer(html, this.filePath);
+    const content = await this.getRawHtml();
 
-    // 將 courseInfo 傳入 writeFile()
-    fs.writeFileSync(this.filePath, fileContent);
+    this.writeFile(content);
 
     console.log("爬蟲已完成");
   }
@@ -28,5 +23,15 @@ export default class Crawler {
     const result = await fetch(this.url).then((res) => res.text());
 
     return result;
+  }
+
+  private writeFile(content: string) {
+    const filePath = path.resolve(__dirname, "../../data/course.json");
+
+    // 將分析交給 analyzer (class)，並且 analyzer 必須回傳字串
+    const fileContent = this.analyzer.toAnalyzer(content, filePath);
+
+    // 將 courseInfo 傳入 writeFile()
+    fs.writeFileSync(filePath, fileContent);
   }
 }
