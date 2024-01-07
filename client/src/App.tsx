@@ -1,15 +1,15 @@
-import { Route, HashRouter, Switch } from "react-router-dom";
-import LoginPage from "./pages/Login";
-import HomePage from "./pages/Home";
+import { useState } from "react";
 
-const App = () => {
+export default function App() {
+  const [count, setCount] = useState(0);
+
   return (
-    <HashRouter>
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/login" exact component={LoginPage} />
-      </Switch>
-    </HashRouter>
+    <>
+      <div>
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+      </div>
+    </>
   );
-};
-export default App;
+}

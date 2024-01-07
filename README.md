@@ -6,7 +6,7 @@
 - 使用 Express 框架撰寫 API
 -
 
-爬取網站 [連結](http://www.dell-lee.com/) 標題與圖片
+爬取網站 [連結](https://water.taiwanstat.com/) 標題與水位
 
 - 安裝 `npm install`
 - 編譯 `npm run build`
