@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import express from "express";
 import cookieSession from "cookie-session";
-import "./controller/login";
-import "./controller/crawler";
-import "./controller/health";
+import "@/controller/login";
+import "@/controller/crawler";
+import "@/controller/health";
 import router from "./router";
 
 const app = express();

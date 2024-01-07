@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "node:url";
 
 // 負責單獨爬取內容
 export default class Crawler {
@@ -26,6 +27,8 @@ export default class Crawler {
   }
 
   private writeFile(content: string) {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
     const filePath = path.resolve(__dirname, "../../data/course.json");
 
     // 將分析交給 analyzer (class)，並且 analyzer 必須回傳字串

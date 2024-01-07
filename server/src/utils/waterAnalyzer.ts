@@ -1,31 +1,27 @@
-import fs from "fs";
 import cheerio from "cheerio";
+import { generateJsonContent } from "@/utils";
 
 interface Course {
   name: string;
   volumeNumber: string;
 }
 
-interface CourseResult {
-  time: number;
-  data: Course[];
-}
-
-export default class PowerAnalyzer implements Analyzer {
-  protected static instance: PowerAnalyzer;
+export default class WaterAnalyzer implements Analyzer {
+  protected static instance: WaterAnalyzer;
 
   static getInstance() {
-    if (!PowerAnalyzer.instance) {
-      PowerAnalyzer.instance = new PowerAnalyzer();
+    if (!WaterAnalyzer.instance) {
+      WaterAnalyzer.instance = new WaterAnalyzer();
     }
-    return PowerAnalyzer.instance;
+    return WaterAnalyzer.instance;
   }
 
   public toAnalyzer(html: string, filePath: string) {
     // 將 html 傳入 getInfo()
     const courseInfo = this.getInfo(html);
+
     // 將 data物件 傳入 generateJsonContent()
-    const fileContent = this.generateJsonContent(courseInfo, filePath);
+    const fileContent = generateJsonContent(courseInfo, filePath);
 
     return JSON.stringify(fileContent);
   }
@@ -45,19 +41,5 @@ export default class PowerAnalyzer implements Analyzer {
     });
 
     return { time: Date.now(), data: infos };
-  }
-
-  // 取得檔案內容方法
-  private generateJsonContent(courseInfo: CourseResult, filePath: string) {
-    let fileContent: Record<number, Course[]> = {};
-    // 判斷該路徑文件是否存在
-    if (fs.existsSync(filePath)) {
-      // 先讀取已存在文件內容
-      fileContent = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    }
-
-    fileContent[courseInfo.time] = courseInfo.data;
-
-    return fileContent;
   }
 }

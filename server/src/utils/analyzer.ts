@@ -1,33 +1,26 @@
-import fs from "fs";
 import cheerio from "cheerio";
+import { generateJsonContent } from "@/utils";
 
 interface Course {
   title: string;
   courseImg: string;
 }
-interface CourseResult {
-  time: number;
-  data: Course[];
-}
-interface Content {
-  [propName: number]: Course[];
-}
 
-export default class DellAnalyzer implements Analyzer {
-  protected static instance: DellAnalyzer;
+export default class BaseAnalyzer implements Analyzer {
+  protected static instance: BaseAnalyzer;
 
   static getInstance() {
-    if (!DellAnalyzer.instance) {
-      DellAnalyzer.instance = new DellAnalyzer();
+    if (!BaseAnalyzer.instance) {
+      BaseAnalyzer.instance = new BaseAnalyzer();
     }
-    return DellAnalyzer.instance;
+    return BaseAnalyzer.instance;
   }
 
   public toAnalyzer(html: string, filePath: string) {
     // 將 html 傳入 getCourseInfo()
     const courseInfo = this.getCourseInfo(html);
     // 將 data物件 傳入 generateJsonContent()
-    const fileContent = this.generateJsonContent(courseInfo, filePath);
+    const fileContent = generateJsonContent(courseInfo, filePath);
     return JSON.stringify(fileContent);
   }
 
@@ -46,18 +39,5 @@ export default class DellAnalyzer implements Analyzer {
     });
 
     return { time: new Date().getTime(), data: courseInfos };
-  }
-
-  // 取得檔案內容方法
-  private generateJsonContent(courseInfo: CourseResult, filePath: string) {
-    let fileContent: Content = {};
-    // 判斷該路徑文件是否存在
-    if (fs.existsSync(filePath)) {
-      // 先讀取已存在文件內容
-      fileContent = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    }
-
-    fileContent[courseInfo.time] = courseInfo.data;
-    return fileContent;
   }
 }

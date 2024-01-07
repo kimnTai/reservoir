@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { controller, get } from "../decorator";
+import { controller, get } from "@/decorator";
 
 @controller("/")
-export default class health {
+export default class HealthController {
   @get("/")
   check(req: Request, res: Response) {
     const healthCheck = {

@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { controller, get, post } from "../decorator";
-import { getResponseData, isLogin } from "../utils";
+import { controller, get, post } from "@/decorator";
+import { getResponseData, isLogin } from "@/utils";
 
 @controller("/api")
 export default class LoginController {
