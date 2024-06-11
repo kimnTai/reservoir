@@ -1,52 +1,51 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isLoginApi, loginApi } from "@/api";
+
+import { loginApi } from "@/api";
 import { useAppContext } from "@/context/AppContext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { isLogin, setIsLogin } = useAppContext();
 
+  const { isLogin, setIsLogin } = useAppContext();
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
 
   const handleClick = async () => {
     const res = await loginApi({ password });
 
-    setMessage(res.message);
     setIsLogin(res.data);
   };
 
   useEffect(() => {
     if (isLogin) {
       navigate(`/`);
-    } else {
-      isLoginApi().then((res) => {
-        console.log(res.data);
-      });
     }
   }, [isLogin]);
 
   return (
-    <div>
-      <p className="fs-24 mb-8">Password:</p>
-      <p className="fs-24 mb-8">{message}</p>
-      <input
-        className="fs-24 mb-8"
-        type="password"
-        value={password}
-        onChange={({ target }) => setPassword(target.value)}
-        onKeyUp={(e) => {
-          if (e.key === "Enter") {
-            handleClick();
-          }
-        }}
-      />
-      <div>
-        <button className="fs-24" onClick={handleClick}>
-          登入
-        </button>
+    <div className="border-2 border-r-8 border-black shadow-2xl p-8">
+      <h1 className="text-2xl font-bold text-center">Login</h1>
+      <div className="flex flex-col text-xl my-6">
+        <label className="mb-2">Password</label>
+        <input
+          className="border-2 border-black"
+          type="password"
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleClick();
+            }
+          }}
+        />
       </div>
+
+      <button
+        className="bg-yellow-500 border-2 border-black text-xl py-2 w-full"
+        onClick={handleClick}
+      >
+        登入
+      </button>
     </div>
   );
 }

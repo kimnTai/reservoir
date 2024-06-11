@@ -1,7 +1,5 @@
-const BASE_URL = "http://localhost:7001";
-
 export const loginApi = async (data: { password: string }) => {
-  const res = await fetch(BASE_URL + "/api/login", {
+  const res = await fetch("/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +11,15 @@ export const loginApi = async (data: { password: string }) => {
 };
 
 export const isLoginApi = async () => {
-  const res = await fetch(BASE_URL + "/api/isLogin", {
+  const res = await fetch("/api/isLogin", {
+    method: "GET",
+  });
+
+  return await res.json();
+};
+
+export const logoutApi = async () => {
+  const res = await fetch("/api/logout", {
     method: "GET",
   });
 
