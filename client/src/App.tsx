@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { RouterProvider } from "react-router-dom";
+
+import { AppProvider } from "@/context/AppContext";
+import router from "@/routes";
 
 export default function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <AppProvider>
+      <div className="flex items-center h-screen">
+        <div className="container">
+          <RouterProvider router={router} />
+        </div>
       </div>
-    </>
+    </AppProvider>
   );
 }

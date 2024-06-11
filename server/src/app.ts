@@ -15,8 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(
   cookieSession({
-    name: "session",
-    keys: ["teacher dell"],
+    keys: ["cookieSession"],
     maxAge: 24 * 60 * 60 * 1000, // 24 小時
   })
 );
