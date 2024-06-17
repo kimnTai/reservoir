@@ -25,3 +25,19 @@ export const logoutApi = async () => {
 
   return await res.json();
 };
+
+export const crawlDataApi = async () => {
+  const res = await fetch("/api/crawlData", {
+    method: "PUT",
+  });
+
+  return await res.json();
+};
+
+export const getDataApi = async () => {
+  const res = await fetch("/api/getData", {
+    method: "GET",
+  });
+
+  return await res.json();
+};

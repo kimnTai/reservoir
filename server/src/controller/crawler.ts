@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { controller, get, use } from "@/decorator";
+import { controller, get, put, use } from "@/decorator";
 import { checkLogin } from "@/middleware";
 import { getData } from "@/model";
 import { getResponseData } from "@/utils";
@@ -8,7 +8,7 @@ import waterAnalyzer from "@/utils/waterAnalyzer";
 
 @controller("/api")
 export default class CrawlerController {
-  @get("/getData")
+  @put("/crawlData")
   @use(checkLogin)
   getData(_req: Request, res: Response) {
     const url = `https://water.taiwanstat.com/`;
@@ -19,7 +19,7 @@ export default class CrawlerController {
     res.json(getResponseData(true));
   }
 
-  @get("/showData")
+  @get("/getData")
   @use(checkLogin)
   async showData(_req: Request, res: Response) {
     try {

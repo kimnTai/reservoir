@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
-import { logoutApi } from "@/api";
+import { crawlDataApi, getDataApi, logoutApi } from "@/api";
 import { useAppContext } from "@/context/AppContext";
 
 export default function Home() {
@@ -15,6 +15,7 @@ export default function Home() {
 
     if (!isLogin && !loaderData.isLogin) {
       navigate(`/login`);
+    } else {
     }
   }, [isLogin]);
 
@@ -22,6 +23,28 @@ export default function Home() {
     <div>
       <h1>Home</h1>
       <div>
+        <button
+          className=" bg-black text-white px-4 py-2"
+          onClick={async () => {
+            const res = await getDataApi();
+
+            console.log(res);
+          }}
+        >
+          獲取
+        </button>
+        <button
+          className=" bg-black text-white px-4 py-2"
+          onClick={async () => {
+            const res = await crawlDataApi();
+
+            if (res.data) {
+              alert("爬蟲已完成");
+            }
+          }}
+        >
+          爬取
+        </button>
         <button
           className=" bg-black text-white px-4 py-2"
           onClick={async () => {

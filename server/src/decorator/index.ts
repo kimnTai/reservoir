@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import router from "@/router";
 
-type METHODS = "get" | "post";
+type METHODS = "get" | "post" | "put";
 
 export function controller(root: string) {
   return function <T extends { new (...args: any[]): {} }>(constructor: T) {
@@ -61,6 +61,7 @@ export function use(middleware: RequestHandler) {
 
 export const get = getRequestDecorator("get");
 export const post = getRequestDecorator("post");
+export const put = getRequestDecorator("put");
 
 // 工廠
 function getRequestDecorator(type: METHODS) {
